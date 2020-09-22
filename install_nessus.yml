@@ -1,0 +1,21 @@
+--- 
+- name: Install Nessus server
+  hosts: all
+  remote_user: student1
+  gather_facts: no
+  become: yes
+  vars:
+    nessus_download_url: http://downloads.nessus.org/nessus3dl.php?file=Nessus-8.11.1-es8.x86_64.rpm&license_accept=yes
+  tasks:
+    - name: Download and install nessus
+      yum:
+        name: "{{ nessus_download_url }}"
+        state: present
+    
+    - name: start the nessus daemon
+      service:
+        name: nessusd 
+        enabled: yes
+        state: started
+
+  
